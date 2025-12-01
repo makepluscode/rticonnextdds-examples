@@ -21,14 +21,14 @@ if [ ! -f "./build/publisher" ] || [ ! -f "./build/subscriber" ]; then
 fi
 
 echo "Starting subscriber in background..."
-./build/subscriber -d 0 -s 20 &
+./build/subscriber -d 0 -s 10 &
 SUBSCRIBER_PID=$!
 
 # Give subscriber time to start
 sleep 2
 
 echo "Starting publisher..."
-./build/publisher -d 0 -s 20
+./build/publisher -d 0 -s 10
 
 # Wait for subscriber to finish
 wait $SUBSCRIBER_PID

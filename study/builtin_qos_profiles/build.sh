@@ -10,12 +10,22 @@ if [ -z "$CONNEXTDDS_ARCH" ]; then
     echo "INFO: CONNEXTDDS_ARCH not set, using default: $CONNEXTDDS_ARCH"
 fi
 
-# Check environment variables
+# Check environment variables and auto-detect NDDSHOME if not set
 if [ -z "$NDDSHOME" ]; then
-    echo "ERROR: NDDSHOME environment variable is not set"
-    echo "Please set it to your RTI Connext DDS installation directory"
-    echo "Example: export NDDSHOME=/home/robert/rti_connext_dds-7.3.0"
-    exit 1
+    # First try ~/rti_connext_dds-7.3.0, then /opt/rti.com/rti_connext_dds-7.3.0/
+    if [ -d "$HOME/rti_connext_dds-7.3.0" ]; then
+        export NDDSHOME="$HOME/rti_connext_dds-7.3.0"
+    elif [ -d "/opt/rti.com/rti_connext_dds-7.3.0" ]; then
+        export NDDSHOME="/opt/rti.com/rti_connext_dds-7.3.0"
+    else
+        echo "ERROR: NDDSHOME environment variable is not set and RTI Connext DDS installation not found"
+        echo "Please install RTI Connext DDS to one of these locations:"
+        echo "  ~/rti_connext_dds-7.3.0"
+        echo "  /opt/rti.com/rti_connext_dds-7.3.0"
+        echo ""
+        echo "Or set NDDSHOME manually: export NDDSHOME=~/rti_connext_dds-7.3.0"
+        exit 1
+    fi
 fi
 
 echo "Building builtin_qos_profiles example..."

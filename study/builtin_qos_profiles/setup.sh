@@ -4,7 +4,20 @@
 # Source this file before building: source setup_env.sh
 
 # Set NDDSHOME to your RTI Connext DDS installation
-export NDDSHOME="/home/robert/rti_connext_dds-7.3.0"
+# First try ~/rti_connext_dds-7.3.0, then /opt/rti.com/rti_connext_dds-7.3.0/
+if [ -d "$HOME/rti_connext_dds-7.3.0" ]; then
+    export NDDSHOME="$HOME/rti_connext_dds-7.3.0"
+elif [ -d "/opt/rti.com/rti_connext_dds-7.3.0" ]; then
+    export NDDSHOME="/opt/rti.com/rti_connext_dds-7.3.0"
+else
+    echo "ERROR: RTI Connext DDS installation not found"
+    echo "Please install RTI Connext DDS to one of these locations:"
+    echo "  ~/rti_connext_dds-7.3.0"
+    echo "  /opt/rti.com/rti_connext_dds-7.3.0"
+    echo ""
+    echo "Or set NDDSHOME manually before sourcing this script"
+    exit 1
+fi
 
 # Detect architecture automatically
 if [ -z "$CONNEXTDDS_ARCH" ]; then

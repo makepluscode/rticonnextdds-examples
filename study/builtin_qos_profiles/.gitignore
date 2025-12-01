@@ -2,7 +2,7 @@
 build/
 
 # PCAP capture files
-*.pcap
+# *.pcap
 
 # Log files
 *.log

@@ -1,0 +1,23 @@
+# Build directory
+build/
+
+# Discovery snapshot files
+*_snapshot.xml
+*_participant_snapshot.xml
+*_datawriter_snapshot.xml
+*_datareader_snapshot.xml
+
+# Log files
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+

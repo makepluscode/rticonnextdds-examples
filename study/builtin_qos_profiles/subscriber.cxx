@@ -58,6 +58,18 @@ int run_subscriber_application(
 {
     DDS_Duration_t wait_timeout = { 1, 0 };  // 1 second
 
+    /*
+     * Enable network capture.
+     *
+     * This must be called before:
+     *   - Any other network capture function is called.
+     *   - Creating the participants for which we want to capture traffic.
+     */
+    if (!NDDSUtilityNetworkCapture::enable()) {
+        std::cerr << "Error enabling network capture" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     // Create participant using default QoS from USER_QOS_PROFILES.xml
     // This will use the BuiltinQosLibExp::Pattern.ReliableStreaming profile
     DDSDomainParticipant *participant =
@@ -70,6 +82,24 @@ int run_subscriber_application(
         return shutdown_participant(
                 participant,
                 "create_participant error",
+                EXIT_FAILURE);
+    }
+
+    /*
+     * Start capturing traffic for all participants.
+     *
+     * All participants: those already created and those yet to be created.
+     * Default parameters: all transports and some other sane defaults.
+     *
+     * A capture file will be created for each participant. The capture file
+     * will start with the prefix "subscriber" and continue with a suffix
+     * dependent on the participant's GUID.
+     */
+    if (!NDDSUtilityNetworkCapture::start("subscriber")) {
+        std::cerr << "Error starting network capture" << std::endl;
+        return shutdown_participant(
+                participant,
+                "Error starting network capture",
                 EXIT_FAILURE);
     }
 
@@ -167,6 +197,14 @@ int run_subscriber_application(
             std::cerr << "wait error " << retcode << std::endl;
             break;
         }
+    }
+
+    /*
+     * Before deleting the participants that are capturing, we must stop
+     * network capture for them.
+     */
+    if (!NDDSUtilityNetworkCapture::stop()) {
+        std::cerr << "Error stopping network capture" << std::endl;
     }
 
     // Cleanup read condition

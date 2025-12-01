@@ -1,0 +1,19 @@
+# Build directory
+build/
+
+# PCAP capture files
+*.pcap
+
+# Log files
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

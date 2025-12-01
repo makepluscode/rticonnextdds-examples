@@ -1,0 +1,8 @@
+/*
+ * Simple message type for demonstrating built-in QoS profiles
+ */
+
+struct Message {
+    long id;
+    string<256> content;
+};

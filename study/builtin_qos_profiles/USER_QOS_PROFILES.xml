@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+    Simple QoS configuration using built-in profiles
+-->
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/7.3.0/rti_dds_qos_profiles.xsd">
+
+    <qos_library name="MessageLibrary">
+        <!--
+            Default profile inheriting from built-in ReliableStreaming profile
+            This provides reliable, ordered data delivery optimized for streaming
+        -->
+        <qos_profile name="DefaultProfile"
+                     base_name="BuiltinQosLibExp::Pattern.ReliableStreaming"
+                     is_default_qos="true">
+
+            <!-- Configure DataWriter -->
+            <datawriter_qos>
+                <publication_name>
+                    <name>MessagePublisher</name>
+                </publication_name>
+            </datawriter_qos>
+
+            <!-- Configure DataReader -->
+            <datareader_qos>
+                <subscription_name>
+                    <name>MessageSubscriber</name>
+                </subscription_name>
+            </datareader_qos>
+
+            <!-- Configure DomainParticipant with monitoring enabled -->
+            <domain_participant_qos base_name="BuiltinQosLib::Generic.Monitoring.Common">
+                <participant_name>
+                    <name>MessageParticipant</name>
+                    <role_name>MessageRole</role_name>
+                </participant_name>
+            </domain_participant_qos>
+        </qos_profile>
+
+    </qos_library>
+</dds>

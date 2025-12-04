@@ -20,4 +20,9 @@ Thumbs.db
 
 # Profiling output files
 *.callgrind.out
+*.memcheck.log
+*.massif.out
+*.cachegrind.out
+*.helgrind.log
+*.drd.log
 profiling_results/

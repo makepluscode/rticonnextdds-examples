@@ -17,3 +17,7 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Profiling output files
+*.callgrind.out
+profiling_results/
